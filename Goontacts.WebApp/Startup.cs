@@ -1,3 +1,5 @@
+using Goontacts.WebApp.Data;
+using Goontacts.WebApp.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +7,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Goontacts.WebApp
 {
@@ -22,6 +25,10 @@ namespace Goontacts.WebApp
         {
 
             services.AddControllersWithViews();
+
+            string connString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<IContactData, ContactData>((IServiceProvider serviceProvider) => new ContactData(connString));
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

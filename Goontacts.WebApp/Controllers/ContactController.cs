@@ -1,6 +1,8 @@
 ﻿using Goontacts.WebApp.Models;
+using Goontacts.WebApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace Goontacts.WebApp.Controllers
@@ -9,37 +11,25 @@ namespace Goontacts.WebApp.Controllers
     [ApiController]
     public class ContactController : ControllerBase
     {
+        private readonly IContactRepository _contactRepository;
         private readonly ILogger<ContactController> logger;
 
         public IActionResult GetContactList()
         {
-            var contactList = new List<ContactItem>();
-            var ContactItemOne = new ContactItem();
-            ContactItemOne.Id = 1;
-            ContactItemOne.Name = "Mickey Mouse";
-            ContactItemOne.Email = "Mickey@Disney.com";
-            ContactItemOne.PhoneNumber = "(213)555-1212";
-            contactList.Add(ContactItemOne);
-
-            var ContactItemTwo = new ContactItem();
-            ContactItemTwo.Id = 2;
-            ContactItemTwo.Name = "Minnie Mouse";
-            ContactItemTwo.Email = "Minnie@Disney.com";
-            ContactItemTwo.PhoneNumber = "(213)555-1212";
-            contactList.Add(ContactItemTwo);
-
-            var ContactItemThree = new ContactItem();
-            ContactItemThree.Id = 3;
-            ContactItemThree.Name = "Donald Duck";
-            ContactItemThree.Email = "Donald@Disney.com";
-            ContactItemThree.PhoneNumber = "(323)555-1234";
-            contactList.Add(ContactItemThree);
-
-            return Ok(contactList.ToArray());
+            try
+            {
+                var contactList = _contactRepository.GetContactList();
+                return Ok(contactList.ToArray());
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }       
         } 
 
-        public ContactController(ILogger<ContactController> logger)
+        public ContactController(IContactRepository contactRepository, ILogger<ContactController> logger)
         {
+            _contactRepository = contactRepository;
             this.logger = logger;
         }
     }
