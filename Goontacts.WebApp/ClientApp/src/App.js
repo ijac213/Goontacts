@@ -5,7 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Create from './create/Create';
+import Create from './editcontact/EditContact';
 import List from './list/List';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from 'react';
