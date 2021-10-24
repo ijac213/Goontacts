@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import FormErrors from '../common/FormErrors';
 
-
 const EditContact = () => {
     const [contactInfo, setContactInfo] = useState({
         id:-1,
@@ -31,16 +30,7 @@ const EditContact = () => {
       const handleChange = (e) => {
         let key = e.target.id;
         let val = e.target.value;
-        console.log(key, val);
-        setContactInfo((prevState) => ({...prevState,[key]:val}));
-        validateField(key,val);
-      }
-
-      const handleClick = (e) => {
-          console.log("Contact Info", contactInfo);
-      }
-
-      const validateField = (fieldName, value) => {
+  
         let fieldValidationErrors = contactInfo.formErrors;
         let firstNameValid= contactInfo.firstNameValid;
         let lastNameValid= contactInfo.lastNameValid;
@@ -49,29 +39,29 @@ const EditContact = () => {
         let emailValid= contactInfo.emailValid;
         let emailLabelValid= contactInfo.emailLabelValid;
 
-        switch(fieldName) {
+        switch(key) {
             case 'firstName':
-                firstNameValid = value.length >= 2;
+                firstNameValid = val.length >= 2;
                 fieldValidationErrors.firstName = firstNameValid ? '': ' is required';
                 break;
             case 'lastName':
-                lastNameValid = value.length >= 2;
+                lastNameValid = val.length >= 2;
                 fieldValidationErrors.lastName = lastNameValid ? '': ' is required';
                 break;
             case 'phone':
-                phoneValid = value.length >= 10;
+                phoneValid = val.length >= 10;
                 fieldValidationErrors.phone = phoneValid ? '': ' is invalid';
                 break;
             case 'phoneLabel':
-                phoneLabelValid = value.length >= 2;
+                phoneLabelValid = val.length >= 2;
                 fieldValidationErrors.phoneLabel = phoneLabelValid ? '': ' is required';
                 break;
             case 'email':
-                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                emailValid = val.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 fieldValidationErrors.email = emailValid ? '' : ' is invalid';
                 break;
             case 'emailLabel':
-                emailLabelValid = value.length >= 2;
+                emailLabelValid = val.length >= 2;
                 fieldValidationErrors.emailLabel = emailLabelValid ? '': ' is required';
                 break;
             default:
@@ -86,7 +76,7 @@ const EditContact = () => {
             emailLabelValid;
 
         setContactInfo((prevState) => ({
-            ...contactInfo,
+            ...contactInfo, [key]:val, 
             formErrors: {...fieldValidationErrors},
             firstNameValid: firstNameValid,
             lastNameValid: lastNameValid,
@@ -96,6 +86,17 @@ const EditContact = () => {
             emailLabelValid: emailLabelValid,
             formValid: formValid
         }));
+     
+        // setContactInfo((prevState) => ({...prevState,[key]:val}));
+        // validateField(key,val);
+      }
+
+      const handleClick = (e) => {
+          console.log("Contact Info", contactInfo);
+      }
+
+      const validateField = (key, val) => {
+    
     }
 
     return (
