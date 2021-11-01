@@ -5,6 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Create2 from './editcontact/EditContact2';
 import Create from './editcontact/EditContact';
 import List from './list/List';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -42,6 +43,9 @@ function App() {
              <li className="nav-item">
              <Link className="nav-link" activeclassname="active" to="/create">Create</Link>
              </li>
+             <li className="nav-item">
+             <Link className="nav-link" activeclassname="active" to="/create2">Create2</Link>
+             </li>
            </ul>
           </div>
         </div>
@@ -52,6 +56,9 @@ function App() {
         </Route>
         <Route path="/create">
           <Create />
+        </Route>
+        <Route path="/create2">
+          <Create2 />
         </Route>
       </Switch>
     </Router>
