@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Data from "./schemas/DataSchemas";
+import axios from "axios";
 
 const EditContact2 = () => {
   return (
@@ -9,6 +10,10 @@ const EditContact2 = () => {
       validationSchema={Data.validationSchema}
       onSubmit={(values) =>{
         console.log("contactInfo", values); 
+        axios.post('https://localhost:44325/api/Contact', values)
+        .then(resp=>{
+          console.log(resp);
+        });
       }}>
         <Form className="form">
           <div className="container px-4">

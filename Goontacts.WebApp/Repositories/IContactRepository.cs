@@ -6,5 +6,6 @@ namespace Goontacts.WebApp.Repositories
     public interface IContactRepository
     {
         List<ContactItem> GetContactList();
+        int SaveContactInfo(ContactAddRequest req);
     }
 }

@@ -27,6 +27,13 @@ namespace Goontacts.WebApp.Controllers
             }       
         } 
 
+        [HttpPost]
+        public IActionResult SaveContactInfo([FromBody] ContactAddRequest req)
+        {
+            int id = _contactRepository.SaveContactInfo(req);
+            return Ok(req);
+        }
+
         public ContactController(IContactRepository contactRepository, ILogger<ContactController> logger)
         {
             _contactRepository = contactRepository;

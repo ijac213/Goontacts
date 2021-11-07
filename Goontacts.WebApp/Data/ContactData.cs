@@ -43,6 +43,32 @@ namespace Goontacts.WebApp.Data
             return ci;
         }
 
+        public int SaveContactInfo(ContactAddRequest req)
+        {
+            int result = 0;
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            {
+                using(SqlCommand cmd = new SqlCommand("sp_SaveContactInfo", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlParameter p = new SqlParameter("@Id", SqlDbType.Int);
+                    p.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(p);
+                    cmd.Parameters.AddWithValue("@FirstName", req.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", req.LastName);
+                    cmd.Parameters.AddWithValue("@Email", req.Email);
+                    cmd.Parameters.AddWithValue("@EmailLabel", req.EmailLabel);
+                    cmd.Parameters.AddWithValue("@Phone", req.Phone);
+                    cmd.Parameters.AddWithValue("@PhoneLabel", req.PhoneLabel);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    result = (int)cmd.Parameters["@Id"].Value;
+                    conn.Close();
+                }
+            }
+            return result;
+        }
+
         public ContactData(string connString)
         {
             ConnString = connString;
