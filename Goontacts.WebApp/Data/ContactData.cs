@@ -12,25 +12,48 @@ namespace Goontacts.WebApp.Data
     {
         private string ConnString;
 
-        public List<ContactItem> GetContactList()
+        public ContactPageResults GetContactList(int pageSize, int pageNo)
         {
+            ContactPageResults rslt = new ContactPageResults();
             List<ContactItem> resp = new List<ContactItem>();
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
                 using (SqlCommand cmd = new SqlCommand("sp_ContactList", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@pageCnt", pageSize);
+                    cmd.Parameters.AddWithValue("@pageNum", pageNo);
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    int recordSet = 0;
+                    do
                     {
-                        ContactItem ci = Mapper(reader);
-                        resp.Add(ci);
-                    }
+                        while (reader.Read())
+                        {
+                            switch (recordSet)
+                            {
+                                case 0:
+                                    ContactItem ci = Mapper(reader);
+                                    resp.Add(ci);
+                                    break;
+                                case 1:
+                                    rslt.RecCount = reader.GetInt32(0);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            
+                        }
+                        rslt.ContactItemList = resp;
+                        rslt.PageSize = pageSize;
+                        rslt.PageNo = pageNo;
+                        recordSet++;
+                    } while (reader.NextResult());
+                   
                     conn.Close();
                 }
             }
-            return resp;
+            return rslt;
         }
 
         private ContactItem Mapper(SqlDataReader reader)

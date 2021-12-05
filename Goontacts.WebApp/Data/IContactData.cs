@@ -5,7 +5,7 @@ namespace Goontacts.WebApp.Data
 {
     public interface IContactData
     {
-        List<ContactItem> GetContactList();
+        ContactPageResults GetContactList(int pageSize, int pageNo);
         int SaveContactInfo(ContactAddRequest req);
     }
 }

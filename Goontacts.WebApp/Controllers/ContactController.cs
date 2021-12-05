@@ -14,12 +14,12 @@ namespace Goontacts.WebApp.Controllers
         private readonly IContactRepository _contactRepository;
         private readonly ILogger<ContactController> logger;
 
-        public IActionResult GetContactList()
+        public IActionResult GetContactList([FromQuery]int pageSize, int pageNo)
         {
             try
             {
-                var contactList = _contactRepository.GetContactList();
-                return Ok(contactList.ToArray());
+                var contactResult = _contactRepository.GetContactList(pageSize, pageNo);
+                return Ok(contactResult);
             }
             catch (Exception e)
             {

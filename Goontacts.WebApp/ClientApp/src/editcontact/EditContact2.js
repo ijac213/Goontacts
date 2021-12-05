@@ -12,7 +12,7 @@ const EditContact2 = () => {
         console.log("contactInfo", values); 
         axios.post('https://localhost:44325/api/Contact', values)
         .then(resp=>{
-          console.log(resp);
+          console.log(resp);  
         });
       }}>
         <Form className="form">

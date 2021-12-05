@@ -11,9 +11,9 @@ namespace Goontacts.WebApp.Repositories
     {
         private IContactData _contactData;
 
-        public List<ContactItem> GetContactList()
+        public ContactPageResults GetContactList(int pageSize, int pageNo)
         {
-            List<ContactItem> resp = _contactData.GetContactList();
+            ContactPageResults resp = _contactData.GetContactList(pageSize, pageNo);
             return resp;
         }
 
