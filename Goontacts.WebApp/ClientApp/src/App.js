@@ -10,6 +10,7 @@ import Create from './editcontact/EditContact';
 import List from './list/List';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from 'react';
+import Contact from './contact/Contact';
 
 
 function App() {
@@ -53,6 +54,12 @@ function App() {
       <Switch>
         <Route exact path="/">
           <List />
+        </Route>
+        <Route exact path="/contact">
+          <Contact />
+        </Route>
+        <Route path="/contact/:id">
+          <Contact />
         </Route>
         <Route path="/create">
           <Create />

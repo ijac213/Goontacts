@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const List = () => {
     const [contactResult, setContactResult] = useState({
@@ -41,10 +42,15 @@ const List = () => {
       </div>
       <div className="row">
         <div className="col-12">
+          <Link to="contact">Add</Link>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-12">
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th>Id</th>
+                <th>Action</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone Number</th>
@@ -55,7 +61,7 @@ const List = () => {
                 contactResult.contactItemList.map((elem, idx) => {
                   return(
                     <tr key={idx}>
-                      <td>{elem.id}</td>
+                      <td><Link to={`contact/${elem.id}`}>edit</Link></td>
                       <td>{elem.name}</td>
                       <td>{elem.email}</td>
                       <td>{elem.phoneNumber}</td>

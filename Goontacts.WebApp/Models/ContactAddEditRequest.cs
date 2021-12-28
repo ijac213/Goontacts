@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Goontacts.WebApp.Models
 {
-    public class ContactAddRequest
+    public class ContactAddEditRequest
     {
         public int Id { get; set; }
 

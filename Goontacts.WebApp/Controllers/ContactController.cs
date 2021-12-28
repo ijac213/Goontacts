@@ -27,11 +27,39 @@ namespace Goontacts.WebApp.Controllers
             }       
         } 
 
+        [HttpGet("{id:int}")]
+        public IActionResult GetContactById([FromRoute]int id)
+        {
+            try
+            {
+                ContactAddEditRequest result = _contactRepository.GetContactById(id);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
         [HttpPost]
-        public IActionResult SaveContactInfo([FromBody] ContactAddRequest req)
+        public IActionResult SaveContactInfo([FromBody] ContactAddEditRequest req)
         {
             int id = _contactRepository.SaveContactInfo(req);
             return Ok(req);
+        }
+
+        [HttpPut]
+        public IActionResult UpdateContactInfo([FromBody] ContactAddEditRequest req)
+        {
+            try
+            {
+                _contactRepository.UpdateContactInfo(req);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
         }
 
         public ContactController(IContactRepository contactRepository, ILogger<ContactController> logger)

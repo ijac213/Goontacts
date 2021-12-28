@@ -17,10 +17,21 @@ namespace Goontacts.WebApp.Repositories
             return resp;
         }
 
-        public int SaveContactInfo(ContactAddRequest req)
+        public int SaveContactInfo(ContactAddEditRequest req)
         {
             int id = _contactData.SaveContactInfo(req);
             return id;
+        }
+
+        public ContactAddEditRequest GetContactById(int id)
+        {
+            ContactAddEditRequest result = _contactData.GetContactById(id);
+            return result;
+        }
+
+        public void UpdateContactInfo(ContactAddEditRequest req)
+        {
+            _contactData.UpdateContactInfo(req);
         }
 
         public ContactRepository(IContactData contactData)

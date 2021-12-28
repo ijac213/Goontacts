@@ -66,7 +66,7 @@ namespace Goontacts.WebApp.Data
             return ci;
         }
 
-        public int SaveContactInfo(ContactAddRequest req)
+        public int SaveContactInfo(ContactAddEditRequest req)
         {
             int result = 0;
             using (SqlConnection conn = new SqlConnection(ConnString))
@@ -90,6 +90,55 @@ namespace Goontacts.WebApp.Data
                 }
             }
             return result;
+        }
+
+        public ContactAddEditRequest GetContactById(int id)
+        {
+            ContactAddEditRequest result = null;
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_GetContactById", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        result = new ContactAddEditRequest();
+                        result.Id = reader.GetInt32("Id");
+                        result.FirstName = reader.GetString("FirstName");
+                        result.LastName = reader.GetString("LastName");
+                        result.Email = reader.GetString("Email");
+                        result.EmailLabel = reader.GetString("Emailabel");
+                        result.Phone = reader.GetString("PhoneNumber");
+                        result.PhoneLabel = reader.GetString("PhoneLabel");
+                    }
+                    conn.Close();
+                }
+            }
+            return result;
+        }
+
+        public void UpdateContactInfo(ContactAddEditRequest req)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_UpdateContactInfo", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", req.Id);
+                    cmd.Parameters.AddWithValue("@FirstName", req.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", req.LastName);
+                    cmd.Parameters.AddWithValue("@Email", req.Email);
+                    cmd.Parameters.AddWithValue("@EmailLabel", req.EmailLabel);
+                    cmd.Parameters.AddWithValue("@Phone", req.Phone);
+                    cmd.Parameters.AddWithValue("@PhoneLabel", req.PhoneLabel);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
         }
 
         public ContactData(string connString)
